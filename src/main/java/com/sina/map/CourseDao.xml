@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sina.map.CourseDao">
+    <resultMap id="BaseResultMap" type="com.sina.domain.Course">
+        <id column="course_cid" jdbcType="INTEGER" property="cid"/>
+        <result column="course_cname" jdbcType="VARCHAR" property="cname"/>
+    </resultMap>
+    <sql id="Base_Column_List">course.cid as course_cid, course.cname as course_cname</sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from course course
+        where course.cid = #{cid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course
+    where cid = #{cid,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" keyColumn="cid" keyProperty="cid" parameterType="com.sina.domain.Course"
+            useGeneratedKeys="true">
+    insert into course (cname)
+    values (#{cname,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="cid" keyProperty="cid" parameterType="com.sina.domain.Course"
+            useGeneratedKeys="true">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cname != null">
+                cname,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cname != null">
+                #{cname,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sina.domain.Course">
+        update course
+        <set>
+            <if test="cname != null">
+                cname = #{cname,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where cid = #{cid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sina.domain.Course">
+    update course
+    set cname = #{cname,jdbcType=VARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+
+    <insert id="insertCourseList" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into course(cname) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.cname,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+</mapper>

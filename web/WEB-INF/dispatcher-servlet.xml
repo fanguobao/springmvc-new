@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd" >
+    <!--静态资源对应的处理器-->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <!--InternalResourceViewResolver视图解析器，用来解析逻辑视图-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--映射注解 校验支持 信息转换 以及对域格式化-->
+    <mvc:annotation-driven />
+    <context:component-scan base-package="com.sina.controller"/>
+
+    <!--配置AOP代理模式proxy-target-class：false-基于接口，使用JDK动态代理,默认；true-基于类，需要使用cglib库 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>
